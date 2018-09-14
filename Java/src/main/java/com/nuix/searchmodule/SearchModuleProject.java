@@ -66,6 +66,7 @@ public class SearchModuleProject {
 		saveToFile(new File(file));
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void saveToFile(File file) throws IOException{
 		file.getParentFile().mkdirs();
 		Files.write(this.toJson(), file, Charset.forName("UTF-8"));

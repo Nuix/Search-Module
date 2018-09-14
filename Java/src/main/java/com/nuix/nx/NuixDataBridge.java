@@ -45,13 +45,6 @@ public class NuixDataBridge {
 		}
 	}
 	
-	private static List<NameValuePair> fetchDataFrom(DataProvider<List<NameValuePair>> provider){
-		if(provider!=null)
-			return provider.getData();
-		else
-			return new ArrayList<NameValuePair>();
-	}
-	
 	//getCurrentCase
 	private static DataProvider<nuix.Case> currentCaseProvider;
 	public static void whenCurrentCaseRequested(DataProvider<nuix.Case> provider){
@@ -304,17 +297,20 @@ public class NuixDataBridge {
 		return result;
 	}
 	
-	//getFlags
-	private static DataProvider<List<NameValuePair>> flagsProvider;
-	public static void whenFlagsRequested(DataProvider<List<NameValuePair>> provider){
-		flagsProvider = provider;
-	}
-	/**
-	 * Provides a List of {@link NameValuePair} with information about the possible flags
-	 * @return A list of the possible flags
+	private static List<NameValuePair> flags = null;
+	/***
+	 * Gets the list of flags to allow for use in a flag:* type query
+	 * @return List of flag values
 	 */
 	public static List<NameValuePair> getFlags(){
-		return fetchDataFrom(flagsProvider);
+		return flags;
+	}
+	/***
+	 * Sets the list of possible flag choices for use in a flag:* type query
+	 * @param flagNames List if flag names
+	 */
+	public static void setFlags(List<String> flagNames){
+		flags = flagNames.stream().map(fn -> new NameValuePair(fn)).collect(Collectors.toList());
 	}
 	
 	/**
@@ -326,54 +322,30 @@ public class NuixDataBridge {
 			.map(kind -> new NameValuePair(kind.getName())).collect(Collectors.toList());
 	}
 	
-	//getCommonDateFields
-	private static DataProvider<List<NameValuePair>> dateFieldProvider;
-	public static void whenDateFieldsRequested(DataProvider<List<NameValuePair>> provider){
-		dateFieldProvider = provider;
-	}
-	/**
-	 * Provides a List of {@link NameValuePair} with information about the common date fields
-	 * @return A list of the common date fields
-	 */
 	private static List<NameValuePair> commonDateFields = null;
 	public static List<NameValuePair> getCommonDateFields(){
-		if(commonDateFields == null){
-			commonDateFields = fetchDataFrom(dateFieldProvider);
-		}
 		return commonDateFields;
 	}
-	
-	//getCommonIntegerFields
-	private static DataProvider<List<NameValuePair>> integerFieldProvider;
-	public static void whenIntegerFieldsRequested(DataProvider<List<NameValuePair>> provider){
-		integerFieldProvider = provider;
+	public static void setCommonDateFields(List<NameValuePair> dateFields){
+		commonDateFields = dateFields;
 	}
-	/**
-	 * Provides a List of {@link NameValuePair} with information about the common integer fields
-	 * @return A list of the common integer fields
-	 */
+	
+	private static List<NameValuePair> commonIntegerFields = null;
 	public static List<NameValuePair> getCommonIntegerFields(){
-		return fetchDataFrom(integerFieldProvider);
+		return commonIntegerFields;
+	}
+	public static void setCommonIntegerFields(List<NameValuePair> integerFields){
+		commonIntegerFields = integerFields;
 	}
 	
-	//getCommonTextFields
-	private static DataProvider<List<NameValuePair>> textFieldProvider;
-	public static void whenTextFieldsRequested(DataProvider<List<NameValuePair>> provider){
-		textFieldProvider = provider;
-	}
-	/**
-	 * Provides a List of {@link NameValuePair} with information about the common text fields
-	 * @return A list of the common text fields
-	 */
+	private static List<NameValuePair> commonTextFields = null;
 	public static List<NameValuePair> getCommonTextFields(){
-		if(textFieldProvider!=null){
-			return fetchDataFrom(textFieldProvider);
-		}
-		else{
-			return new ArrayList<NameValuePair>();
-		}
+		return commonTextFields;
 	}
-	
+	public static void setCommonTextFields(List<NameValuePair> textFields){
+		commonTextFields = textFields;
+	}
+		
 	/**
 	 * Provides a List of {@link NameValuePair} with information about the custom metadata fields.
 	 * @return A list of the custom metadata fields present in the case
