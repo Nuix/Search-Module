@@ -848,7 +848,7 @@ public class MainDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					Desktop.getDesktop().open(new File(MainDialog.this.getRootDirectory(),"Readme.html"));
+					Desktop.getDesktop().open(new File(MainDialog.this.getRootDirectory(),"Help.html"));
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

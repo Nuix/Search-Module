@@ -18,12 +18,7 @@ import nuix.ItemType;
 import nuix.Window;
 
 /**
- * Provides indirect access to certain Nuix runtime values.  Before usage of the various {@link com.nuix.nx.query.QueryCriteriaBase} objects and the
- * {@link com.nuix.nx.controls.QueryBuilderControl}, code should submit a {@link DataProvider} for each of the "when...Requested" methods, allowing
- * this class to server of the appropriate Nuix runtime values for the current class.
- * 
- * This allows the required Ruby code to be at a minimum for Ruby scripts and should allow code developed for use with the Nuix engine
- * to also use these classes as long as they supply the appropriate providers.
+ * Provides some Nuix interaction points and data (Utilities, current case, list of fields names, etc)
  * @author JasonWells
  *
  */

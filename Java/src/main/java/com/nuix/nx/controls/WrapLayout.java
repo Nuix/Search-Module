@@ -8,7 +8,6 @@ import javax.swing.SwingUtilities;
 /**
  *  FlowLayout subclass that fully supports wrapping of components.
  */
-//http://www.camick.com/java/source/WrapLayout.java
 @SuppressWarnings("serial")
 public class WrapLayout extends FlowLayout
 {
