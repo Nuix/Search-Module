@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -316,17 +317,13 @@ public class NuixDataBridge {
 		return fetchDataFrom(flagsProvider);
 	}
 	
-	//getKinds
-	private static DataProvider<List<NameValuePair>> kindsProvider;
-	public static void whenKindsRequested(DataProvider<List<NameValuePair>> provider){
-		kindsProvider = provider;
-	}
 	/**
 	 * Provides a List of {@link NameValuePair} with information about the possible kinds
 	 * @return A list of the possible kinds
 	 */
 	public static List<NameValuePair> getKinds(){
-		return fetchDataFrom(kindsProvider);
+		return getUtilities().getItemTypeUtility().getAllKinds().stream()
+			.map(kind -> new NameValuePair(kind.getName())).collect(Collectors.toList());
 	}
 	
 	//getCommonDateFields

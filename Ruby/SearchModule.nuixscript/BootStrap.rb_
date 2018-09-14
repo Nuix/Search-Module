@@ -47,25 +47,6 @@ module Nx
 		].map{|value|NameValuePair.new(value)}
 	end
 
-	NuixDataBridge::whenKindsRequested do
-		[
-			"email",
-			"calendar",
-			"contact",
-			"document",
-			"spreadsheet",
-			"presentation",
-			"drawing",
-			"other-document",
-			"image",
-			"multimedia",
-			"database",
-			"container",
-			"system",
-			"unrecognised",
-		].map{|value|NameValuePair.new(value)}
-	end
-
 	NuixDataBridge::whenDateFieldsRequested do
 		result = [
 			"item-date",
