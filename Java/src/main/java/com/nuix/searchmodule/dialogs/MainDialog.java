@@ -72,6 +72,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
+import javax.swing.ImageIcon;
 
 @SuppressWarnings({ "serial", "unused" })
 public class MainDialog extends JDialog {
@@ -108,8 +109,6 @@ public class MainDialog extends JDialog {
 	private JCheckBox chckbxFieldEvidenceMetadata;
 	private JButton btnCheckAllFields;
 	private JButton btnUncheckAllFields;
-	private JScrollPane scrollPane_1;
-	private JXEditorPane dtrpnPlaceholdersAllowYou;
 	private JButton btnBuildTerm;
 	private JLabel lblErrorsCount;
 	private JLabel lblWarningsCount;
@@ -126,6 +125,7 @@ public class MainDialog extends JDialog {
 	private JCheckBox chckbxTagsRequireHits;
 	private JCheckBox chckbxReportReviewableBy;
 	private JTabbedPane tabbedPane;
+	private JButton btnPlaceHolderReference;
 	
 	public static String getVersion(){
 		return "3.11";
@@ -649,6 +649,21 @@ public class MainDialog extends JDialog {
 						chckbxReportReviewableBy = new JCheckBox("Report reviewable by custodian");
 						panel_3.add(chckbxReportReviewableBy);
 					}
+					{
+						btnPlaceHolderReference = new JButton("Place Holder Reference");
+						btnPlaceHolderReference.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent arg0) {
+								try {
+									Desktop.getDesktop().open(new File(MainDialog.this.getRootDirectory(),"PlaceholderReference.html"));
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							}
+						});
+						btnPlaceHolderReference.setIcon(new ImageIcon(MainDialog.class.getResource("/com/nuix/nx/help.png")));
+						panel_3.add(btnPlaceHolderReference);
+					}
 				}
 				{
 					hitsSettingsEditor = new CategorySettingsEditor(new CategorySettings("hits","Hits"));
@@ -703,22 +718,6 @@ public class MainDialog extends JDialog {
 					gbc_uniqueFamilySettingsEditor.gridx = 2;
 					gbc_uniqueFamilySettingsEditor.gridy = 4;
 					panelReporting.add(uniqueFamilySettingsEditor, gbc_uniqueFamilySettingsEditor);
-				}
-				{
-					scrollPane_1 = new JScrollPane();
-					GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
-					gbc_scrollPane_1.gridwidth = 3;
-					gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
-					gbc_scrollPane_1.gridx = 0;
-					gbc_scrollPane_1.gridy = 5;
-					panelReporting.add(scrollPane_1, gbc_scrollPane_1);
-					{
-						dtrpnPlaceholdersAllowYou = new JXEditorPane();
-						dtrpnPlaceholdersAllowYou.setEditable(false);
-						dtrpnPlaceholdersAllowYou.setContentType("text/html");
-						dtrpnPlaceholdersAllowYou.setText("<html>\r\n<head>\r\n<style>\r\nbody { font-family: consolas; }\r\ntable { background-color: black; width: 100%;}\r\ntd, th { background-color: white;}\r\n</style>\r\n</head>\r\n<body>\r\nTag values, custom metadata values and cover sheet information all support placeholders.  Placeholders allow you to include values which will be resolved at runtime to their appropriate values.\r\n<p>\r\nA placeholder is recognized as:\r\n<code>{PLACEHOLDER_NAME}</code>\r\n<p>\r\n<table>\r\n\t<tr><th>Placeholder</th><th>Description</th><th>Example</th><th>Supported By</th></tr>\r\n\t<tr><td><code>{date}</code></td><td>Replaced with date when searching started</td><td>20141219</td><td>All</td></tr>\r\n\t<tr><td><code>{time}</code></td><td>Replaced with date and time when searching started</td><td>103000</td><td>All</td></tr>\r\n\t<tr><td><code>{date_time}</code></td><td>Replaced with date when searching started</td><td>20141219_103000</td><td>All</td></tr>\r\n\t<tr><td><code>{category}</code></td><td>Replaced with category</td><td>\"Hits\", \"Top Level Hits\", \"Reviewable Hits\", etc</td><td>Tags, Custom Metadata Value</td></tr>\r\n\t<tr><td><code>{term}</code></td><td>Replaced with current term</td><td></td><td>Tags, Custom Metadata Value</td></tr>\r\n\t<tr><td><code>{sequence}</code></td><td>Replaced with 4 fill sequential number, incremented once per term</td><td>\"0001\", \"0002\", \"0003\", etc.</td><td>Tags, Custom Metadata Value</td></tr>\r\n\t<tr><td><code>{shortname}</code></td><td>Replaced with the \"Short Name\" value on terms tab if provided, else the same value <code>{sequence}</code> would be for the given term.</td><td></td><td>Tags, Custom Metadata Value</td></tr>\r\n\t<tr><td><code>{casename}</code></td><td>Replaced with the current case's name</td><td></td><td>Cover Sheet Information</td></tr>\r\n\t<tr><td><code>{caselocation}</code></td><td>Replaced with the current case's directory</td><td>C:\\NuixCases\\CaseAbc</td><td>Cover Sheet Information</td></tr>\r\n</table>\r\n\r\n</body>\r\n</html>");
-						scrollPane_1.setViewportView(dtrpnPlaceholdersAllowYou);
-					}
 				}
 			}
 		}
@@ -849,6 +848,20 @@ public class MainDialog extends JDialog {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					Desktop.getDesktop().open(new File(MainDialog.this.getRootDirectory(),"Help.html"));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		JMenuItem placeHolderHelpSubMenu = new JMenuItem("Place Holder Reference");
+		helpMenu.add(placeHolderHelpSubMenu);
+		placeHolderHelpSubMenu.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					Desktop.getDesktop().open(new File(MainDialog.this.getRootDirectory(),"PlaceholderReference.html"));
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
