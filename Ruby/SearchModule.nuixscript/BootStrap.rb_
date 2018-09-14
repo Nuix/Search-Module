@@ -1,0 +1,152 @@
+require 'java'
+com.nuix.nx.LookAndFeelHelper::setWindows
+
+module Nx
+	include_package "com.nuix.nx"
+	java_import "com.nuix.nx.NuixVersion"
+	module Query
+		include_package "com.nuix.nx.query"
+	end
+
+	NuixVersion::setCurrentVersion(NUIX_VERSION)
+	puts "Running Search Module #{com.nuix.searchmodule.dialogs.MainDialog.getVersion} in Nuix #{NuixVersion.getCurrent}"
+
+	NuixDataBridge::whenCurrentCaseRequested do
+		next $current_case
+	end
+
+	NuixDataBridge::whenUtilitiesRequested do
+		next $utilities
+	end
+
+	NuixDataBridge::setWindow($window)
+
+	NuixDataBridge::whenFlagsRequested do
+		[
+			"audited",
+			"decrypted",
+			"encrypted",
+			"deleted",
+			"identification_disabled",
+			"images_not_processed",
+			"inline",
+			"irregular_file_extension",
+			"licence_restricted",
+			"loose_file",
+			"not_loose_file",
+			"not_physical_file",
+			"not_processed",
+			"partially_processed",
+			"physical_file",
+			"poison",
+			"reloaded",
+			"suppressed_immaterial_item",
+			"text_not_processed",
+			"text_stripped",
+			"top_level",
+		].map{|value|NameValuePair.new(value)}
+	end
+
+	NuixDataBridge::whenKindsRequested do
+		[
+			"email",
+			"calendar",
+			"contact",
+			"document",
+			"spreadsheet",
+			"presentation",
+			"drawing",
+			"other-document",
+			"image",
+			"multimedia",
+			"database",
+			"container",
+			"system",
+			"unrecognised",
+		].map{|value|NameValuePair.new(value)}
+	end
+
+	NuixDataBridge::whenDateFieldsRequested do
+		result = [
+			"item-date",
+			"comm-date",
+			"top-level-item-date",
+		]
+		result = result.map{|value|NameValuePair.new(value)}
+		result += [
+			"File Accessed",
+			"File Created",
+			"File Modified",
+			"Application Created",
+			"Application Modified",
+			"Created",
+			"Date",
+			"Start",
+			"Finish",
+			"Image Creation Time",
+			"Image Modification Time",
+			"Last Printed",
+			"Last Saved",
+			"Mapi-Message-Delivery-Time",
+			"MS Project Finish Date",
+			"MS Project Start Date",
+		].map{|value|NameValuePair.new(value,"date-properties:\"#{value}\"")}
+		next result
+	end
+
+	NuixDataBridge::whenIntegerFieldsRequested do
+		result = [
+			"file-size",
+			"audited-size",
+			"document-id",
+		].map{|value|NameValuePair.new(value)}
+		result += [
+			"Page Count",
+			"Mapi-Attach-Size",
+			"Compressed File Size",
+			"Bytes",
+			"Excel Hidden Sheets Count",
+			"Excel Very Hidden Sheets Count",
+			"Hidden Slides",
+			"Paragraphs",
+			"Slides",
+			"Word Count",
+			"Char Count",
+			"CharactersWithSpaces",
+			"Lines",
+			"Notes",
+			"Compression",
+			"LinkColor",
+			"Version",
+			"EntryCount",
+			"Number of Channels",
+			"Height",
+			"Width",
+			"Thumbnail Height",
+			"Thumbnail Width",
+			"Mapi-Content-Count",
+			"Mapi-Content-Unread",
+			"Mapi-Importance",
+			"Mapi-Message-Size",
+			"Mapi-Priority",
+			"Mapi-Sender-Flags",
+			"Mapi-Sensitivity",
+			"Mapi-Sent-Representing-Flags",
+			"Mapi-Submit-Flags",
+			"Mapi-Use-Session-Log",
+		].map{|value|NameValuePair.new(value,"integer-properties:\"#{value}\"")}
+		next result
+	end
+
+	NuixDataBridge::whenTextFieldsRequested do
+		["content","properties","name","path-name","to","from","cc","bcc","evidence-metadata"].map{|value|NameValuePair.new(value)}
+	end
+
+	module Dialogs
+		include_package "com.nuix.nx.dialogs"
+	end
+
+	module ItemOperations
+		include_package "com.nuix.nx.itemoperations"
+	end
+end
