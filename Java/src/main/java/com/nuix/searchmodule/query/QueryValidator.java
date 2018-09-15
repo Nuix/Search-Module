@@ -2,6 +2,7 @@ package com.nuix.searchmodule.query;
 
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -17,7 +18,6 @@ import org.apache.lucene.queryparser.flexible.standard.parser.Token;
 import org.apache.lucene.queryparser.flexible.standard.parser.TokenMgrError;
 
 import com.nuix.nx.NuixDataBridge;
-import com.nuix.nx.NuixVersion;
 import com.nuix.searchmodule.query.QueryValidationInfo.ValidationType;
 
 public class QueryValidator {
@@ -31,107 +31,6 @@ public class QueryValidator {
 	private static Pattern proximityPatternW = Pattern.compile("w/([0-9]+)",Pattern.CASE_INSENSITIVE);
 	private static Pattern proximityPatternPre = Pattern.compile("pre/([0-9]+)",Pattern.CASE_INSENSITIVE);
 	private static Set<String> knownNuixFields = new HashSet<String>();
-	
-	static {
-		knownNuixFields.add("address");
-		knownNuixFields.add("audited-size");
-		knownNuixFields.add("automatic-classifier");
-		knownNuixFields.add("batch-load-guid");
-		knownNuixFields.add("bcc");
-		knownNuixFields.add("bcc-mail-address");
-		knownNuixFields.add("bcc-mail-domain");
-		knownNuixFields.add("boolean-custom-metadata");
-		knownNuixFields.add("cc");
-		knownNuixFields.add("cc-mail-address");
-		knownNuixFields.add("cc-mail-domain");
-		knownNuixFields.add("characters");
-		knownNuixFields.add("cluster");
-		knownNuixFields.add("comm-date");
-		knownNuixFields.add("comm-guid");
-		knownNuixFields.add("comment");
-		knownNuixFields.add("contains-text");
-		knownNuixFields.add("content");
-		knownNuixFields.add("custodian");
-		knownNuixFields.add("custom-metadata");
-		knownNuixFields.add("date-custom-metadata");
-		knownNuixFields.add("date-properties");
-		knownNuixFields.add("deleted");
-		knownNuixFields.add("digest-input-size");
-		knownNuixFields.add("digest-list");
-		knownNuixFields.add("document-id");
-		knownNuixFields.add("encrypted");
-		knownNuixFields.add("evidence-metadata");
-		knownNuixFields.add("exclusion");
-		knownNuixFields.add("family");
-		knownNuixFields.add("family-content");
-		knownNuixFields.add("family-names");
-		knownNuixFields.add("family-properties");
-		knownNuixFields.add("file-extension");
-		knownNuixFields.add("flag");
-		knownNuixFields.add("float-custom-metadata");
-		knownNuixFields.add("float-properties");
-		knownNuixFields.add("from");
-		knownNuixFields.add("from-mail-address");
-		knownNuixFields.add("from-mail-domain");
-		knownNuixFields.add("guid");
-		knownNuixFields.add("has-binary");
-		knownNuixFields.add("has-comment");
-		knownNuixFields.add("has-communication");
-		knownNuixFields.add("has-custodian");
-		knownNuixFields.add("has-embedded-data");
-		knownNuixFields.add("has-exclusion");
-		knownNuixFields.add("has-image");
-		knownNuixFields.add("has-item-set");
-		knownNuixFields.add("has-print-preview");
-		knownNuixFields.add("has-production-set");
-		knownNuixFields.add("has-stored");
-		knownNuixFields.add("has-tag");
-		knownNuixFields.add("has-text");
-		knownNuixFields.add("integer-custom-metadata");
-		knownNuixFields.add("integer-properties");
-		knownNuixFields.add("is-item-original");
-		knownNuixFields.add("item-date");
-		knownNuixFields.add("item-id");
-		knownNuixFields.add("item-set");
-		knownNuixFields.add("item-set-batch");
-		knownNuixFields.add("item-set-duplicates");
-		knownNuixFields.add("item-set-originals");
-		knownNuixFields.add("kind");
-		knownNuixFields.add("lang");
-		knownNuixFields.add("markup-set");
-		knownNuixFields.add("md5");
-		knownNuixFields.add("mime-type");
-		knownNuixFields.add("modifications");
-		knownNuixFields.add("modifications");
-		knownNuixFields.add("name");
-		knownNuixFields.add("named-entities");
-		knownNuixFields.add("parent-guid");
-		knownNuixFields.add("path-guid");
-		knownNuixFields.add("path-kind");
-		knownNuixFields.add("path-mime-type");
-		knownNuixFields.add("path-name");
-		knownNuixFields.add("previous-version-docid");
-		knownNuixFields.add("print-method");
-		knownNuixFields.add("print-preview");
-		knownNuixFields.add("production-set");
-		knownNuixFields.add("production-set-guid");
-		knownNuixFields.add("properties");
-		knownNuixFields.add("recipient");
-		knownNuixFields.add("score-confidence");
-		knownNuixFields.add("scored");
-		knownNuixFields.add("sha-1");
-		knownNuixFields.add("sha-256");
-		knownNuixFields.add("shannon-entropy");
-		knownNuixFields.add("shingle-list");
-		knownNuixFields.add("skintone");
-		knownNuixFields.add("tag");
-		knownNuixFields.add("text-custom-metadata");
-		knownNuixFields.add("to");
-		knownNuixFields.add("to-mail-address");
-		knownNuixFields.add("to-mail-domain");
-		knownNuixFields.add("top-level-item-date");
-		knownNuixFields.add("word-list");
-	}
 	
 	/**
 	 * Escape syntax that is custom to Nuix and causes issues with stock Lucene.
@@ -152,8 +51,6 @@ public class QueryValidator {
 		Pattern a = Pattern.compile("/");
 		Pattern b = Pattern.compile("\\\\/");
 		ArrayList<String> result = new ArrayList<String>();
-		//String modifiedQuery = escapeCustomSyntax(query);
-		//modifiedQuery = a.matcher(modifiedQuery).replaceAll("\\\\/");
 		query = a.matcher(query).replaceAll("\\\\/");
 		
 		StandardSyntaxParser parser = new StandardSyntaxParser(new FastCharStream(new StringReader(query)));
@@ -178,16 +75,16 @@ public class QueryValidator {
 		return result;
 	}
 	
+	public static void setKnownFields(Collection<String> fields){
+		knownNuixFields.addAll(fields);
+	}
+	
 	/**
 	 * Runs all validations against the provided query string.
 	 * @param query The query string to inspect
 	 * @return 0 validations if no issues were found, otherwise a collection of errors and/or warnings
 	 */
 	public static List<QueryValidationInfo> validate(String query){
-		if(NuixVersion.getCurrent().isAtLeast("6.2.0")){
-			knownNuixFields.add("top-level-item-date");
-		}
-		
 		List<QueryValidationInfo> results = new ArrayList<QueryValidationInfo>();
 		
 		//Check for some of the easy errors up front
@@ -338,11 +235,6 @@ public class QueryValidator {
 		for (int i = 0; i < tokens.size(); i++) {
 			String token = tokens.get(i);
 			String nextToken = (i + 1 < tokens.size()) ? tokens.get(i+1) : "";
-			//String nextNextToken = (i + 2 < tokens.size()) ? tokens.get(i+2) : "";
-			//System.out.println("====="+i+"=====");
-			//System.out.println("token: "+token);
-			//System.out.println("nextToken: "+nextToken);
-			//System.out.println("nextNextToken: "+nextNextToken);
 			
 			if(invalidWildcardPattern.matcher(stripQuotes(token)).matches() &&
 					!previousToken.equals(":") &&
@@ -381,7 +273,9 @@ public class QueryValidator {
 				continue;
 			}
 			if(!knownNuixFields.contains(field.toLowerCase())){
-				results.add(new QueryValidationInfo(ValidationType.WARNING,"Field not recognized as Nuix search field: "+field));
+				String warningMessage = "Field not recognized as Nuix search field: '"+field+
+						"', See QueryData.json in script directory for list of valid fields.";
+				results.add(new QueryValidationInfo(ValidationType.WARNING,warningMessage));
 			}
 		}
 		return results;
