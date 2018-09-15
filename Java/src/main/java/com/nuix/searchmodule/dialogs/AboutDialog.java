@@ -12,6 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import com.nuix.nx.SearchModuleVersion;
+
 @SuppressWarnings("serial")
 public class AboutDialog extends JDialog {
 
@@ -43,7 +45,7 @@ public class AboutDialog extends JDialog {
 			contentPanel.add(lblSearchModule, gbc_lblSearchModule);
 		}
 		{
-			JLabel lblVersion = new JLabel("Version "+MainDialog.getVersion());
+			JLabel lblVersion = new JLabel("Version "+SearchModuleVersion.getVersion());
 			lblVersion.setFont(new Font("Tahoma", Font.PLAIN, 19));
 			GridBagConstraints gbc_lblVersion = new GridBagConstraints();
 			gbc_lblVersion.insets = new Insets(0, 0, 5, 5);

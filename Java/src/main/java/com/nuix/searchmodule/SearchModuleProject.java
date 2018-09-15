@@ -14,9 +14,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.nuix.nx.GenericSerializationAdapter;
 import com.nuix.nx.NuixVersion;
+import com.nuix.nx.SearchModuleVersion;
 import com.nuix.nx.query.QueryCriteria;
 import com.nuix.nx.query.QueryGenerator;
-import com.nuix.searchmodule.dialogs.MainDialog;
 
 public class SearchModuleProject {
 	private QueryGenerator scopeQuery = new QueryGenerator();
@@ -32,7 +32,7 @@ public class SearchModuleProject {
 	@SuppressWarnings("unused")
 	private String savedByNuixVersion = NuixVersion.getCurrent().toString();
 	@SuppressWarnings("unused")
-	private String savedByVersion = MainDialog.getVersion();
+	private String savedByVersion = SearchModuleVersion.getVersion();
 	
 	public SearchModuleProject(){
 		categoriesSettings.add(new CategorySettings("hits","Hits"));

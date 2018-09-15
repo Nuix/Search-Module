@@ -52,6 +52,7 @@ import org.jdesktop.swingx.JXTextField;
 import com.generationjava.io.CsvReader;
 import com.nuix.nx.MenuHelper;
 import com.nuix.nx.NuixDataBridge;
+import com.nuix.nx.SearchModuleVersion;
 import com.nuix.nx.controls.QueryBuilderControl;
 import com.nuix.nx.dialogs.Prompt;
 import com.nuix.nx.dialogs.QueryDialog;
@@ -127,14 +128,10 @@ public class MainDialog extends JDialog {
 	private JTabbedPane tabbedPane;
 	private JButton btnPlaceHolderReference;
 	
-	public static String getVersion(){
-		return "3.11";
-	}
-
 	public MainDialog(String rootDirectory) {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		this.rootDirectory = rootDirectory;
-		setTitle("Search Module 3 - v"+getVersion());
+		setTitle("Search Module v"+SearchModuleVersion.getVersion());
 		setSize(new Dimension(1440,900));
 		setLocationRelativeTo(null);
 		setModal(true);
