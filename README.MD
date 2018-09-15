@@ -9,6 +9,8 @@ View the GitHub project [here](https://github.com/Nuix/Search-Module) or downloa
 
 **Written By:** Jason Wells
 
+![sm3 12 0screenshot](https://user-images.githubusercontent.com/11775738/45580661-a9291c80-b848-11e8-8eed-71e77952e681.png)
+
 A script which can be used to bulk search and tag items in a Nuix case.
 
 # Getting Started
