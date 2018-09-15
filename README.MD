@@ -1,4 +1,4 @@
-Search Module
+﻿Search Module
 =============
 
 ![Last tested in Nuix 7.6](https://img.shields.io/badge/Nuix-7.6-green.svg)
@@ -19,6 +19,14 @@ Begin by downloading the latest release of this code.  Extract the contents of t
 
 - `%appdata%\Nuix\Scripts` - User level script directory
 - `%programdata%\Nuix\Scripts` - System level script directory
+
+## Building from Source
+
+This script relies on a JAR file `SearchModuleGUI.jar`, the source code of which lives in this repository in the `Java` sub directory.  While the compiled JAR is provided in [releases](https://github.com/Nuix/Search-Module/releases), if you clone the repository you will want to build your own copy.
+
+To build the JAR, load the Java source files into your IDE of choice.  Make sure the build path includes `\lib\*.jar` from the Nuix install directory.  For example, if you have Nuix 7.6 installed, include all JAR files located in `C:\Program Files\Nuix\Nuix 7.6\lib` in you build path.
+
+Note that the JAR is intended to be built against JRE 1.8.
 
 # License
 
