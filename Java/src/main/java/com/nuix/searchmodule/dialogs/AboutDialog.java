@@ -35,7 +35,7 @@ public class AboutDialog extends JDialog {
 		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		contentPanel.setLayout(gbl_contentPanel);
 		{
-			JLabel lblSearchModule = new JLabel("Search Module 2");
+			JLabel lblSearchModule = new JLabel("Search Module");
 			lblSearchModule.setFont(new Font("Tahoma", Font.BOLD, 25));
 			GridBagConstraints gbc_lblSearchModule = new GridBagConstraints();
 			gbc_lblSearchModule.insets = new Insets(0, 0, 5, 5);
