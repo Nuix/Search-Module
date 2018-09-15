@@ -1,6 +1,7 @@
 package com.nuix.searchmodule.dialogs;
 
 import java.awt.BorderLayout;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -13,6 +14,10 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.nuix.nx.SearchModuleVersion;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.net.URI;
+import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 public class AboutDialog extends JDialog {
@@ -30,9 +35,9 @@ public class AboutDialog extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
 		gbl_contentPanel.columnWidths = new int[]{0, 16, 0, 0};
-		gbl_contentPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
+		gbl_contentPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_contentPanel.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		contentPanel.setLayout(gbl_contentPanel);
 		{
 			JLabel lblSearchModule = new JLabel("Search Module");
@@ -96,7 +101,7 @@ public class AboutDialog extends JDialog {
 			JLabel lblRequirementsAndTesting_1 = new JLabel("Requirements and Testing by Philip Glod");
 			lblRequirementsAndTesting_1.setFont(new Font("Arial", Font.PLAIN, 16));
 			GridBagConstraints gbc_lblRequirementsAndTesting_1 = new GridBagConstraints();
-			gbc_lblRequirementsAndTesting_1.insets = new Insets(0, 0, 0, 5);
+			gbc_lblRequirementsAndTesting_1.insets = new Insets(0, 0, 5, 5);
 			gbc_lblRequirementsAndTesting_1.gridx = 0;
 			gbc_lblRequirementsAndTesting_1.gridy = 5;
 			contentPanel.add(lblRequirementsAndTesting_1, gbc_lblRequirementsAndTesting_1);
@@ -105,9 +110,29 @@ public class AboutDialog extends JDialog {
 			JLabel lblPhilipglodnuixcom = new JLabel("philip.glod@nuix.com");
 			lblPhilipglodnuixcom.setFont(new Font("Arial", Font.PLAIN, 16));
 			GridBagConstraints gbc_lblPhilipglodnuixcom = new GridBagConstraints();
+			gbc_lblPhilipglodnuixcom.insets = new Insets(0, 0, 5, 0);
 			gbc_lblPhilipglodnuixcom.gridx = 2;
 			gbc_lblPhilipglodnuixcom.gridy = 5;
 			contentPanel.add(lblPhilipglodnuixcom, gbc_lblPhilipglodnuixcom);
+		}
+		{
+			JButton btnProjectHomePage = new JButton("Project Home Page");
+			btnProjectHomePage.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					try {
+						Desktop.getDesktop().browse(new URI("http://www.github.com/nuix/Search-Module"));
+					} catch (Exception exc) {
+						// TODO Auto-generated catch block
+						exc.printStackTrace();
+					}
+				}
+			});
+			GridBagConstraints gbc_btnProjectHomePage = new GridBagConstraints();
+			gbc_btnProjectHomePage.gridwidth = 3;
+			gbc_btnProjectHomePage.insets = new Insets(0, 0, 0, 5);
+			gbc_btnProjectHomePage.gridx = 0;
+			gbc_btnProjectHomePage.gridy = 6;
+			contentPanel.add(btnProjectHomePage, gbc_btnProjectHomePage);
 		}
 		pack();
 	}
