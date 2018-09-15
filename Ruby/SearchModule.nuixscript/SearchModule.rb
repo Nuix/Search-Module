@@ -24,10 +24,10 @@ def requirelocal(filename)
 end
 
 require "java"
-loadlocal("Xlsx.rb_")
-loadlocal("SimpleTemplate.rb_")
+loadlocal("Xlsx.rb")
+loadlocal("SimpleTemplate.rb")
 requirelocal("SearchModule3GUI.jar")
-loadlocal("BootStrap.rb_")
+loadlocal("BootStrap.rb")
 
 if Nx::NuixVersion.getCurrent.isLessThan("7.0")
 	puts "This version of search module is not compatible with versions of Nuix prior to 7.0"
