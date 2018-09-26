@@ -394,7 +394,7 @@ while true #Loop until user cancels.  Loop will be show dialog, run, show dialog
 		end
 
 		sheet << ["Nuix Version",NUIX_VERSION]
-		sheet << ["Search Module Version",SM::Dialogs::MainDialog.getVersion]
+		sheet << ["Search Module Version",com.nuix.nx.SearchModuleVersion.getVersion]
 
 		sheet.style_cells(nil,0,headers_style)
 		sheet.auto_fit_columns
