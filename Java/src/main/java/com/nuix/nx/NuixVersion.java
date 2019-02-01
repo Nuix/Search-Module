@@ -13,23 +13,29 @@ public class NuixVersion implements Comparable<NuixVersion> {
 	
 	private int major = 0;
 	private int minor = 0;
+	private int bugfix = 0;
 	private int build = 0;
 	
 	public NuixVersion(){
-		this(0,0,0);
+		this(0,0,0,0);
 	}
 	
 	public NuixVersion(int majorVersion){
-		this(majorVersion,0,0);
+		this(majorVersion,0,0,0);
 	}
 	
 	public NuixVersion(int majorVersion, int minorVersion){
-		this(majorVersion,minorVersion,0);
+		this(majorVersion,minorVersion,0,0);
 	}
 	
-	public NuixVersion(int majorVersion, int minorVersion, int buildVersion){
+	public NuixVersion(int majorVersion, int minorVersion, int bugfixVersion){
+		this(majorVersion,minorVersion,bugfixVersion,0);
+	}
+	
+	public NuixVersion(int majorVersion, int minorVersion, int bugfixVersion, int buildVersion){
 		major = majorVersion;
 		minor = minorVersion;
+		bugfix = bugfixVersion;
 		build = buildVersion;
 	}
 	
@@ -47,13 +53,15 @@ public class NuixVersion implements Comparable<NuixVersion> {
 					return new NuixVersion(versionPartInts[0],versionPartInts[1]);
 				case 3:
 					return new NuixVersion(versionPartInts[0],versionPartInts[1],versionPartInts[2]);
+				case 4:
+					return new NuixVersion(versionPartInts[0],versionPartInts[1],versionPartInts[2],versionPartInts[3]);
 				default:
 					return new NuixVersion();
 			}
 		}catch(Exception exc){
 			System.out.println("Error while parsing version: "+versionString);
-			System.out.println("Pretending version is 100.0.0");
-			return new NuixVersion(100,0,0);
+			System.out.println("Pretending version is 100.0.0.0");
+			return new NuixVersion(100,0,0,0);
 		}
 	}
 	
@@ -71,6 +79,14 @@ public class NuixVersion implements Comparable<NuixVersion> {
 		this.minor = minor;
 	}
 	
+	public int getBugfix() {
+		return bugfix;
+	}
+
+	public void setBugfix(int bugfix) {
+		this.bugfix = bugfix;
+	}
+
 	public int getBuild() {
 		return build;
 	}
@@ -82,7 +98,7 @@ public class NuixVersion implements Comparable<NuixVersion> {
 		if(currentVersion != null){
 			return NuixVersion.currentVersion;
 		} else {
-			String versionString = "0.0.0";
+			String versionString = "0.0.0.0";
 			for(Package p : Package.getPackages()){
 				if(p.getName().matches("com\\.nuix\\..*")){
 					versionString = p.getImplementationVersion();
@@ -113,13 +129,15 @@ public class NuixVersion implements Comparable<NuixVersion> {
 	public int compareTo(NuixVersion other) {
 		if(this.major == other.major){
 			if(this.minor == other.minor){
-				return Integer.compare(this.build, other.build);
-			}
-			else{
+				if(this.bugfix == other.bugfix) {
+					return Integer.compare(this.build, other.build);	
+				} else {
+					return Integer.compare(this.bugfix, other.bugfix);
+				}
+			} else{
 				return Integer.compare(this.minor, other.minor);
 			}
-		}
-		else{
+		} else{
 			return Integer.compare(this.major, other.major);
 		}
 		
@@ -129,6 +147,7 @@ public class NuixVersion implements Comparable<NuixVersion> {
 	public String toString(){
 		return Integer.toString(this.major) + "." +
 				Integer.toString(this.minor) + "." +
+				Integer.toString(this.bugfix) + "." +
 				Integer.toString(this.build);
 	}
 }
