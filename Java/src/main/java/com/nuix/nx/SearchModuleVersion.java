@@ -7,6 +7,6 @@ package com.nuix.nx;
  */
 public class SearchModuleVersion {
 	public static String getVersion(){
-		return "3.14.0";
+		return "3.15.0";
 	}
 }
