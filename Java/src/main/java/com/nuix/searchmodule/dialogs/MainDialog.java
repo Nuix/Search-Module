@@ -21,6 +21,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,6 +75,8 @@ import javax.swing.JTextArea;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import javax.swing.ImageIcon;
+import com.jidesoft.combobox.CheckBoxListExComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 @SuppressWarnings({ "serial", "unused" })
 public class MainDialog extends JDialog {
@@ -103,11 +106,6 @@ public class MainDialog extends JDialog {
 	private JXButton btnImportCsv;
 	private JXTextField txtfldAddTermText;
 	private JPanel panel_1;
-	private JCheckBox chckbxFieldContent;
-	private JCheckBox chckbxFieldProperties;
-	private JCheckBox chckbxFieldName;
-	private JCheckBox chckbxFieldPathName;
-	private JCheckBox chckbxFieldEvidenceMetadata;
 	private JButton btnCheckAllFields;
 	private JButton btnUncheckAllFields;
 	private JButton btnBuildTerm;
@@ -127,7 +125,12 @@ public class MainDialog extends JDialog {
 	private JCheckBox chckbxReportReviewableBy;
 	private JTabbedPane tabbedPane;
 	private JButton btnPlaceHolderReference;
+	private CheckBoxListExComboBox defaultSearchFields;
+	private JLabel lblDefaultSearchFields;
 	
+	private String[] defaultSearchFieldChoices = new String[] {"content", "properties", "name", "path-name", "evidence-metadata", "from", "to", "cc", "bcc"};
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public MainDialog(String rootDirectory) {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		this.rootDirectory = rootDirectory;
@@ -367,51 +370,11 @@ public class MainDialog extends JDialog {
 					gbc_panel_1.gridy = 1;
 					panelTerms.add(panel_1, gbc_panel_1);
 					GridBagLayout gbl_panel_1 = new GridBagLayout();
-					gbl_panel_1.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+					gbl_panel_1.columnWidths = new int[]{0, 600, 0, 0, 0, 0, 0};
 					gbl_panel_1.rowHeights = new int[]{0, 0};
-					gbl_panel_1.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+					gbl_panel_1.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 					gbl_panel_1.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 					panel_1.setLayout(gbl_panel_1);
-					{
-						chckbxFieldContent = new JCheckBox("content");
-						GridBagConstraints gbc_chckbxFieldContent = new GridBagConstraints();
-						gbc_chckbxFieldContent.insets = new Insets(0, 0, 0, 5);
-						gbc_chckbxFieldContent.gridx = 0;
-						gbc_chckbxFieldContent.gridy = 0;
-						panel_1.add(chckbxFieldContent, gbc_chckbxFieldContent);
-					}
-					{
-						chckbxFieldProperties = new JCheckBox("properties");
-						GridBagConstraints gbc_chckbxFieldProperties = new GridBagConstraints();
-						gbc_chckbxFieldProperties.insets = new Insets(0, 0, 0, 5);
-						gbc_chckbxFieldProperties.gridx = 1;
-						gbc_chckbxFieldProperties.gridy = 0;
-						panel_1.add(chckbxFieldProperties, gbc_chckbxFieldProperties);
-					}
-					{
-						chckbxFieldName = new JCheckBox("name");
-						GridBagConstraints gbc_chckbxFieldName = new GridBagConstraints();
-						gbc_chckbxFieldName.insets = new Insets(0, 0, 0, 5);
-						gbc_chckbxFieldName.gridx = 2;
-						gbc_chckbxFieldName.gridy = 0;
-						panel_1.add(chckbxFieldName, gbc_chckbxFieldName);
-					}
-					{
-						chckbxFieldPathName = new JCheckBox("path-name");
-						GridBagConstraints gbc_chckbxFieldPathName = new GridBagConstraints();
-						gbc_chckbxFieldPathName.insets = new Insets(0, 0, 0, 5);
-						gbc_chckbxFieldPathName.gridx = 3;
-						gbc_chckbxFieldPathName.gridy = 0;
-						panel_1.add(chckbxFieldPathName, gbc_chckbxFieldPathName);
-					}
-					{
-						chckbxFieldEvidenceMetadata = new JCheckBox("evidence-metadata");
-						GridBagConstraints gbc_chckbxFieldEvidenceMetadata = new GridBagConstraints();
-						gbc_chckbxFieldEvidenceMetadata.insets = new Insets(0, 0, 0, 5);
-						gbc_chckbxFieldEvidenceMetadata.gridx = 4;
-						gbc_chckbxFieldEvidenceMetadata.gridy = 0;
-						panel_1.add(chckbxFieldEvidenceMetadata, gbc_chckbxFieldEvidenceMetadata);
-					}
 					{
 						btnCheckAllFields = new JButton("Check All Fields");
 						btnCheckAllFields.addActionListener(new ActionListener() {
@@ -420,9 +383,29 @@ public class MainDialog extends JDialog {
 								setAllFields(true);
 							}
 						});
+						{
+							lblDefaultSearchFields = new JLabel("Default Search Fields");
+							GridBagConstraints gbc_lblDefaultSearchFields = new GridBagConstraints();
+							gbc_lblDefaultSearchFields.fill = GridBagConstraints.HORIZONTAL;
+							gbc_lblDefaultSearchFields.insets = new Insets(0, 0, 0, 5);
+							gbc_lblDefaultSearchFields.gridx = 0;
+							gbc_lblDefaultSearchFields.gridy = 0;
+							panel_1.add(lblDefaultSearchFields, gbc_lblDefaultSearchFields);
+						}
+						{
+							defaultSearchFields = new CheckBoxListExComboBox();
+							defaultSearchFields.setModel(new DefaultComboBoxModel(defaultSearchFieldChoices));
+							defaultSearchFields.setSelectedItem(new String[] {});
+							GridBagConstraints gbc_defaultSearchFields = new GridBagConstraints();
+							gbc_defaultSearchFields.insets = new Insets(0, 0, 0, 5);
+							gbc_defaultSearchFields.fill = GridBagConstraints.HORIZONTAL;
+							gbc_defaultSearchFields.gridx = 1;
+							gbc_defaultSearchFields.gridy = 0;
+							panel_1.add(defaultSearchFields, gbc_defaultSearchFields);
+						}
 						GridBagConstraints gbc_btnCheckAllFields = new GridBagConstraints();
 						gbc_btnCheckAllFields.insets = new Insets(0, 0, 0, 5);
-						gbc_btnCheckAllFields.gridx = 5;
+						gbc_btnCheckAllFields.gridx = 2;
 						gbc_btnCheckAllFields.gridy = 0;
 						panel_1.add(btnCheckAllFields, gbc_btnCheckAllFields);
 					}
@@ -436,7 +419,7 @@ public class MainDialog extends JDialog {
 						});
 						GridBagConstraints gbc_btnUncheckAllFields = new GridBagConstraints();
 						gbc_btnUncheckAllFields.insets = new Insets(0, 0, 0, 5);
-						gbc_btnUncheckAllFields.gridx = 6;
+						gbc_btnUncheckAllFields.gridx = 3;
 						gbc_btnUncheckAllFields.gridy = 0;
 						panel_1.add(btnUncheckAllFields, gbc_btnUncheckAllFields);
 					}
@@ -445,7 +428,7 @@ public class MainDialog extends JDialog {
 						chckbxHandleExcludedItems.setToolTipText("<html>\r\nWhen checked, items which are excluded (ie: has-exclusion:1 or Item.isExcluded equals true) <br>will be filtered out of every category before those items are used for any purpose by search module.\r\n</html>");
 						chckbxHandleExcludedItems.setSelected(true);
 						GridBagConstraints gbc_chckbxHandleExcludedItems = new GridBagConstraints();
-						gbc_chckbxHandleExcludedItems.gridx = 8;
+						gbc_chckbxHandleExcludedItems.gridx = 5;
 						gbc_chckbxHandleExcludedItems.gridy = 0;
 						panel_1.add(chckbxHandleExcludedItems, gbc_chckbxHandleExcludedItems);
 					}
@@ -959,10 +942,9 @@ public class MainDialog extends JDialog {
 		}
 		
 		//Ensure at least one field is checked on the terms tab
-		if(!chckbxFieldContent.isSelected() && !chckbxFieldName.isSelected() && !chckbxFieldProperties.isSelected() &&
-				!chckbxFieldEvidenceMetadata.isSelected() && !chckbxFieldPathName.isSelected()){
+		if(selectedDefaultFieldCount() < 1){
 			String title = "No Fields Selected";
-			String message = "You must select at least one field on the terms tab before continuing.";
+			String message = "You must select at least one default search field on the terms tab before continuing.";
 			JOptionPane.showMessageDialog(null,message,title,JOptionPane.ERROR_MESSAGE);
 			tabbedPane.setSelectedIndex(1);
 			return false;
@@ -1099,34 +1081,29 @@ public class MainDialog extends JDialog {
 	}
 	
 	protected void setAllFields(boolean value){
-		chckbxFieldContent.setSelected(value);
-		chckbxFieldProperties.setSelected(value);
-		chckbxFieldName.setSelected(value);
-		chckbxFieldPathName.setSelected(value);
-		chckbxFieldEvidenceMetadata.setSelected(value);
+		if(value == true) {
+			defaultSearchFields.setSelectedItem(defaultSearchFieldChoices);
+		} else {
+			defaultSearchFields.setSelectedItem(new String[] {});
+		}
 	}
 	
 	public List<String> getFields(){
-		ArrayList<String> fields = new ArrayList<String>();
-		if(chckbxFieldContent.isSelected()) fields.add("content");
-		if(chckbxFieldProperties.isSelected()) fields.add("properties");
-		if(chckbxFieldName.isSelected()) fields.add("name");
-		if(chckbxFieldPathName.isSelected()) fields.add("path-name");
-		if(chckbxFieldEvidenceMetadata.isSelected()) fields.add("evidence-metadata");
-		return fields;
+		List<String> result = new ArrayList<String>();
+		Object[] selectedFields = defaultSearchFields.getSelectedObjects();
+		for (int i = 0; i < selectedFields.length; i++) {
+			result.add((String)selectedFields[i]);
+		}
+		return result;
+	}
+	
+	public int selectedDefaultFieldCount() {
+		Object[] selectedFields = defaultSearchFields.getSelectedObjects();
+		return selectedFields.length;
 	}
 	
 	public void setFields(List<String> fields){
-		setAllFields(false);
-		for(String field : fields){
-			switch(field.toLowerCase()){
-				case "content": chckbxFieldContent.setSelected(true); break;
-				case "properties": chckbxFieldProperties.setSelected(true); break;
-				case "name": chckbxFieldName.setSelected(true); break;
-				case "path-name": chckbxFieldPathName.setSelected(true); break;
-				case "evidence-metadata": chckbxFieldEvidenceMetadata.setSelected(true); break;
-			}
-		}
+		defaultSearchFields.setSelectedItem(fields.toArray(new String[] {}));
 	}
 	
 	public void loadProject(SearchModuleProject project){
