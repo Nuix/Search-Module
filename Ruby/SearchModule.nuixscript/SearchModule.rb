@@ -364,8 +364,12 @@ while true #Loop until user cancels.  Loop will be show dialog, run, show dialog
 		end
 
 		#SUMMARY SHEET
+		scope_query_string = scope_query_generator.toQuery
+		scope_hits = $current_case.count(scope_query_string,{"defaultFields"=>fields.join(", ")})
+
 		sheet = xlsx.get_sheet("Summary")
 		sheet << ["Scope Query",""] #We will populate this after column sizing so it can overflow
+		sheet << ["Scope Query Hits",scope_hits]
 		sheet << ["Default Fields",fields.join(", ")]
 		sheet << ["Terms",terms.size]
 
@@ -398,7 +402,7 @@ while true #Loop until user cancels.  Loop will be show dialog, run, show dialog
 
 		sheet.style_cells(nil,0,headers_style)
 		sheet.auto_fit_columns
-		sheet[0,1] = scope_query_generator.toQuery #Write scope query after other data is autosized to
+		sheet[0,1] = scope_query_string #Write scope query after other data is autosized to
 		sheet.set_landscape
 		sheet.set_print_gridlines(true)
 

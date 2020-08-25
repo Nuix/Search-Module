@@ -100,20 +100,25 @@ public class BulkSearchAnnotater extends BulkSearcher {
 					String categoryTermTagKey = currentCategory.getCategoryKey()+"_term_tag";
 					for(SearchResult result : results){
 						sequence++;
+						
 						if(result.getHadError()) continue;
+						
 						template.put("term", result.getTerm());
 						String sequenceString = String.format("%04d", sequence);
 						template.put("sequence", sequenceString);
+						
 						String shortName = result.getShortName();
 						if(shortName == null || shortName.isEmpty()){
 							template.put("shortname", sequenceString);
 						}else{
 							template.put("shortname", shortName);
 						}
+						
 						String tag = template.resolveTemplate();
 						if(tag.length() > 256){
 							tag = tag.substring(0, 256);
 						}
+						
 						Collection<Item> categoryItems = getResultCategoryItems(currentCategory,result);
 						fireProgressUpdated("Tagging Per Term, Category: "+currentCategory.getCategoryTitle(), tag, sequence, results.size());
 						try {

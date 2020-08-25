@@ -615,6 +615,7 @@ public class QueryBuilderControl extends JPanel implements ChangeListener {
 			logicalMenuItem = new JMenuItem(key);
 			Class<? extends LogicalQueryCriteria> classToAdd = logicalEntries.get(key);
 			logicalMenuItem.addActionListener(new ActionListener(){
+				@SuppressWarnings("deprecation")
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					try {
@@ -649,6 +650,7 @@ public class QueryBuilderControl extends JPanel implements ChangeListener {
 			logicalMenuItem = new JMenuItem(key);
 			Class<? extends NegatableQueryCriteria> classToAdd = negatableCriteria.get(key);
 			logicalMenuItem.addActionListener(new ActionListener(){
+				@SuppressWarnings("deprecation")
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					try {
@@ -685,6 +687,7 @@ public class QueryBuilderControl extends JPanel implements ChangeListener {
 			commonMenuItem = new JMenuItem(key);
 			Class<? extends CommonQueryCriteria> classToAdd = commonEntries.get(key);
 			commonMenuItem.addActionListener(new ActionListener(){
+				@SuppressWarnings("deprecation")
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					try {
@@ -758,6 +761,7 @@ public class QueryBuilderControl extends JPanel implements ChangeListener {
 		for(final String key : commonKeys){
 			commonMenuItem = new JMenuItem(key);
 			commonMenuItem.addActionListener(new ActionListener(){
+				@SuppressWarnings("deprecation")
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					try {
