@@ -26,7 +26,6 @@ public class QueryValidator {
 	private static Pattern stripQuotesPattern = Pattern.compile("(^\")|(\"$)");
 	private static Pattern stripRegexSlashesPattern = Pattern.compile("(^/)|(/$)");
 	private static Pattern invalidWildcardPattern = Pattern.compile("^[\\*\\?]+$");
-	private static Pattern invalidRegexDelimiterPattern = Pattern.compile("(^/[^/]+$)|($[^/]+/$)");
 	private static Pattern starPrefixPattern = Pattern.compile("[\\*]+[^\\* ]+");
 	private static Pattern proximityPatternW = Pattern.compile("w/([0-9]+)",Pattern.CASE_INSENSITIVE);
 	private static Pattern proximityPatternPre = Pattern.compile("pre/([0-9]+)",Pattern.CASE_INSENSITIVE);
@@ -48,11 +47,7 @@ public class QueryValidator {
 	 * @return Tokens as strings
 	 */
 	protected static List<String> tokenizeQuery(String query){
-		Pattern a = Pattern.compile("/");
-		Pattern b = Pattern.compile("\\\\/");
 		ArrayList<String> result = new ArrayList<String>();
-		query = a.matcher(query).replaceAll("\\\\/");
-		
 		StandardSyntaxParser parser = new StandardSyntaxParser(new FastCharStream(new StringReader(query)));
 		Token t;
 		while(true){
@@ -68,7 +63,6 @@ public class QueryValidator {
 			String tokenString = t.toString().trim();
 			if(tokenString.isEmpty()) { break; }
 			else{
-				tokenString = b.matcher(tokenString).replaceAll("/");
 				result.add(tokenString);
 			}
 		}
@@ -110,7 +104,6 @@ public class QueryValidator {
 		info = validateBalancedParens(tokens);
 		if(info != null) results.add(info);
 		
-		results.addAll(validateRegexDelimiters(tokens));
 		results.addAll(validateWildcards(tokens));
 		results.addAll(validateFieldNames(tokens));
 		results.addAll(validateRegexSyntax(tokens));
@@ -208,21 +201,6 @@ public class QueryValidator {
 	}
 	
 	/**
-	 * Determines if any Regex tokens only contain a leading or trailing slash /
-	 * @param tokens The tokens to inspect
-	 * @return 0 or more validations, depending on the issues discovered
-	 */
-	protected static List<QueryValidationInfo> validateRegexDelimiters(List<String> tokens){
-		List<QueryValidationInfo> results = new ArrayList<QueryValidationInfo>();
-		for(String token : tokens){
-			if(invalidRegexDelimiterPattern.matcher(token).matches()){
-				results.add(new QueryValidationInfo(ValidationType.ERROR,"Invalid Regex delimiters: "+token));
-			}
-		}
-		return results;
-	}
-	
-	/**
 	 * Validates wild card usage.
 	 * Will generate errors for wild cards without prefix or suffix non wild card characters.
 	 * Will generate warnings for * wild cards being used as prefix (ex: *at)  
@@ -274,7 +252,7 @@ public class QueryValidator {
 			}
 			if(!knownNuixFields.contains(field.toLowerCase())){
 				String warningMessage = "Field not recognized as Nuix search field: '"+field+
-						"', See QueryData.json in script directory for list of valid fields.";
+						"', See QueryData.json in script directory for list of recognized fields.";
 				results.add(new QueryValidationInfo(ValidationType.WARNING,warningMessage));
 			}
 		}
