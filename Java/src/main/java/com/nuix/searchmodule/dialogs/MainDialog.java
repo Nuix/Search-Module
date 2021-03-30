@@ -132,6 +132,7 @@ public class MainDialog extends JDialog {
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public MainDialog(String rootDirectory) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(MainDialog.class.getResource("/com/nuix/nx/NuixIcon.png")));
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		this.rootDirectory = rootDirectory;
 		setTitle("Search Module v"+SearchModuleVersion.getVersion());

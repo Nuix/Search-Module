@@ -18,6 +18,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.net.URI;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
 
 @SuppressWarnings("serial")
 public class AboutDialog extends JDialog {
@@ -25,6 +26,7 @@ public class AboutDialog extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 
 	public AboutDialog() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(AboutDialog.class.getResource("/com/nuix/nx/NuixIcon.png")));
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setTitle("About");
 		setLocationRelativeTo(null);

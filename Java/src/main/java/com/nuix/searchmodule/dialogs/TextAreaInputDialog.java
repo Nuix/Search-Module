@@ -19,6 +19,7 @@ import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 
 import org.jdesktop.swingx.JXTextArea;
+import java.awt.Toolkit;
 
 @SuppressWarnings("serial")
 public class TextAreaInputDialog extends JDialog {
@@ -31,6 +32,7 @@ public class TextAreaInputDialog extends JDialog {
 
 	public TextAreaInputDialog(Dialog owner) {
 		super(owner);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(TextAreaInputDialog.class.getResource("/com/nuix/nx/NuixIcon.png")));
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setSize(new Dimension(800,600));
 		setLocationRelativeTo(null);
