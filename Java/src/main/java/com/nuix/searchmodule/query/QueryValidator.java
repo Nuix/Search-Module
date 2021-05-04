@@ -47,8 +47,9 @@ public class QueryValidator {
 	 * @return Tokens as strings
 	 */
 	protected static List<String> tokenizeQuery(String query){
+		String escapedQuery = escapeCustomSyntax(query);
 		ArrayList<String> result = new ArrayList<String>();
-		StandardSyntaxParser parser = new StandardSyntaxParser(new FastCharStream(new StringReader(query)));
+		StandardSyntaxParser parser = new StandardSyntaxParser(new FastCharStream(new StringReader(escapedQuery)));
 		Token t;
 		while(true){
 			try{
