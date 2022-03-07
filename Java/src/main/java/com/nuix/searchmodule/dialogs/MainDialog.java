@@ -20,6 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -996,26 +997,31 @@ public class MainDialog extends JDialog {
 		importCsv(new File(csvFile));
 	}
 	
-	public void importCsv(File csvFile){
-		try(BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
-			List<String> terms = new ArrayList<String>();
-			CsvReader r = new CsvReader(br);
-			String[] headers = r.readLine();
-			List<SearchTermInfo> convertedTerms = new ArrayList<SearchTermInfo>();
-			while(true){
-				String[] values = r.readLine();
-				if(values == null) break;
-				if(values.length == 1){
-					convertedTerms.add(new SearchTermInfo(values[0].trim()));
-				}else{
-					convertedTerms.add(new SearchTermInfo(values[0].trim(),values[1].trim()));
+	public void importCsv(File csvFile) {
+		try(FileReader fr = new FileReader(csvFile, StandardCharsets.UTF_8))
+		{
+			try(BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+				List<String> terms = new ArrayList<String>();
+				CsvReader r = new CsvReader(br);
+				String[] headers = r.readLine();
+				List<SearchTermInfo> convertedTerms = new ArrayList<SearchTermInfo>();
+				while(true){
+					String[] values = r.readLine();
+					if(values == null) break;
+					if(values.length == 1){
+						convertedTerms.add(new SearchTermInfo(values[0].trim()));
+					}else{
+						convertedTerms.add(new SearchTermInfo(values[0].trim(),values[1].trim()));
+					}
 				}
+				searchTermModel.addAllSearchTermInfos(convertedTerms);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-			searchTermModel.addAllSearchTermInfos(convertedTerms);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
 	}
 	
