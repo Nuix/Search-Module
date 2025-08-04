@@ -8,6 +8,8 @@ Ignored
 *.jardesc
 /Java/Doc
 /Java/*.jardesc
+out/
+.idea/
 
 .settings
 .classpath

@@ -3,9 +3,11 @@
 
 :warning: **IMPORTANT:** This script is practically no longer maintained.  Almost identical functionality was added to Nuix 7.0.  It is recommended you use that built in functionality if possible.  To use the built in Search and Tag functionality choose **Window** → **New Search and Tag tab** from the menu in Nuix Workstation.  If using the API, see documentation for [BulkSearcher](https://download.nuix.com/releases/desktop/stable/docs/en/scripting/api/nuix/BulkSearcher.html).
 
-![This script was last tested in Nuix 9.4](https://img.shields.io/badge/Script%20Tested%20in%20Nuix-9.4-green.svg)
+![This script was last tested in Nuix 9.4](https://img.shields.io/badge/Script%20Tested%20in%20Nuix-9.4-green.svg) ![and in Nuix 10.0](https://img.shields.io/badge/Script%20Tested%20in%20Nuix-10.0-green.svg)
 
 View the GitHub project [here](https://github.com/Nuix/Search-Module) or download the latest release [here](https://github.com/Nuix/Search-Module/releases).
+
+> **NOTE:**  Use Release 3.19.0 with Nuix Workstation 9.x.  Use Release 3.20.0 or above with Nuix Workstation 10.x or with Nuix 1.2 or above.
 
 # Overview
 
