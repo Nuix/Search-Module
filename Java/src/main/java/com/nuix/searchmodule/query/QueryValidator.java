@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import org.apache.log4j.Logger;
-import org.apache.lucene.queryparser.flexible.standard.parser.FastCharStream;
+import org.apache.lucene.queryparser.charstream.FastCharStream;
 import org.apache.lucene.queryparser.flexible.standard.parser.StandardSyntaxParser;
 import org.apache.lucene.queryparser.flexible.standard.parser.Token;
 import org.apache.lucene.queryparser.flexible.standard.parser.TokenMgrError;
